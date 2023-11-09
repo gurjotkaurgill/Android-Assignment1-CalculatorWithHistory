@@ -83,24 +83,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             calculator.setNumbersEntered("");
         }
         else if(v.getId() == R.id.btnEquals) {
-            //perform calculation
-            int result = calculator.calculate();
+            //if nothing was entered: the app crashes, so display an error message
+            if(calculator.getNumbersEntered().length() == 0)
+                Toast.makeText(this, "No query entered", Toast.LENGTH_SHORT).show();
+            else {
+                //perform calculation
+                int result = calculator.calculate();
 
-            //if the result is invalid, display error message and clear textView and query string
-            if (!calculator.getIsCorrect()) {
-                Toast.makeText(this,
-                        "Invalid input: "+calculator.getNumbersEntered()+"\n"+calculator.getErrorMessage(),
-                        Toast.LENGTH_SHORT).show();
-                resultTextView.setText("");
-                calculator.setNumbersEntered("");
-            } else {
-                //else display the result
-                String currentComputation = calculator.getNumbersEntered() + " = " + result;
-                resultTextView.setText(currentComputation);
-                if (((ResultsHistory)getApplication()).isHistoryVisible) {
-                    //if history is visible, update it
-                    ((ResultsHistory)getApplication()).results.add(currentComputation);
-                    updateHistoryTextView();
+                //if the result is invalid, display error message and clear textView and query string
+                if (!calculator.getIsCorrect()) {
+                    Toast.makeText(this,
+                            "Invalid input: " + calculator.getNumbersEntered() + "\n" + calculator.getErrorMessage(),
+                            Toast.LENGTH_SHORT).show();
+                    resultTextView.setText("");
+                    calculator.setNumbersEntered("");
+                } else {
+                    //else display the result
+                    String currentComputation = calculator.getNumbersEntered() + " = " + result;
+                    resultTextView.setText(currentComputation);
+                    if (((ResultsHistory) getApplication()).isHistoryVisible) {
+                        //if history is visible, update it
+                        ((ResultsHistory) getApplication()).results.add(currentComputation);
+                        updateHistoryTextView();
+                    }
                 }
             }
         }
