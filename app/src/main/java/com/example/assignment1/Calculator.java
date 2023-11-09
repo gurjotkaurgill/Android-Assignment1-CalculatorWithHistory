@@ -5,9 +5,9 @@ import static java.lang.Character.isDigit;
 
 public class Calculator {
 
-    boolean isCorrect = true;
-    String errorMessage;
-    String numbersEntered;
+    boolean isCorrect = true; //check if result is valid
+    String errorMessage; //if the result is invalid, this tells what the error is
+    String numbersEntered; //calculation requested by user
 
     public boolean getIsCorrect() {
         return isCorrect;
@@ -32,14 +32,17 @@ public class Calculator {
         this.numbersEntered = numbersEntered;
     }
     void push (String value){
+        //add character entered by user into s string
+        //this function is called everytime the user enters something
         if(numbersEntered != null)
             numbersEntered = numbersEntered.concat(value);
         else
             numbersEntered = value;
     }
     int calculate(){
-        int result=NaN;
+        int result=NaN; //giving a default value to result
         if(validate(numbersEntered)) {
+            //if the string made from user inputs is valid
             setIsCorrect(true);
             int firstOperand, secondOperand;
             char operator;
@@ -68,12 +71,20 @@ public class Calculator {
         return result;
     }
     boolean validate(String problemString) {
+        //to check if string made from user inputs is valid or not
+
+        //length less than 3: either the operator or one of the operands is missing
         if(problemString.length() < 3)
             return false;
+
+        //the last character is not a number: invalid query
         if(!(isDigit(problemString.charAt(problemString.length()-1)))) {
             setErrorMessage("Need an operand after the operator.");
             return false;
         }
+
+        //to check if the string is as follows
+        //number,operator,number,operator.....number
         boolean flag = true;
         for(int i=0;i<problemString.length();i++) {
             if(i%2 == 0) {
@@ -86,7 +97,6 @@ public class Calculator {
             }
             else {
                 //odd index - input character should be an operator
-                //if(problemString.charAt(i)>=0 && problemString.charAt(i)<=9) {
                 if(isDigit(problemString.charAt(i))){
                     flag = false;
                     break;

@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initializeViews();
         setClickListeners();
+
+        //getting the state of visibility of history
         if(!((ResultsHistory)getApplication()).isHistoryVisible) {
             historyTextView.setVisibility(View.INVISIBLE);
             btnHistory.setText(R.string.btnWithHistory);
@@ -76,12 +78,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.btnClear){
-            //clear textview
+            //clear textview and user string
             resultTextView.setText("");
             calculator.setNumbersEntered("");
         }
         else if(v.getId() == R.id.btnEquals) {
+            //perform calculation
             int result = calculator.calculate();
+
+            //if the result is invalid, display error message and clear textView and query string
             if (!calculator.getIsCorrect()) {
                 Toast.makeText(this,
                         "Invalid input: "+calculator.getNumbersEntered()+"\n"+calculator.getErrorMessage(),
@@ -89,23 +94,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 resultTextView.setText("");
                 calculator.setNumbersEntered("");
             } else {
+                //else display the result
                 String currentComputation = calculator.getNumbersEntered() + " = " + result;
                 resultTextView.setText(currentComputation);
                 if (((ResultsHistory)getApplication()).isHistoryVisible) {
+                    //if history is visible, update it
                     ((ResultsHistory)getApplication()).results.add(currentComputation);
                     updateHistoryTextView();
                 }
-                //perform calculation
             }
         }
 
         else if(v.getId() == R.id.btnHistory){
-            //history button pressed
+            //history button pressed: change button's text and switch its visibility factor
             ((ResultsHistory)getApplication()).isHistoryVisible = !((ResultsHistory)getApplication()).isHistoryVisible;
             if(((ResultsHistory)getApplication()).isHistoryVisible){
                 btnHistory.setText(R.string.btnWithoutHistory);
                 historyTextView.setVisibility(View.VISIBLE);
-                //updateHistoryTextView();
+                updateHistoryTextView();
             }
             else {
                 btnHistory.setText(R.string.btnWithHistory);
@@ -113,12 +119,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         else{
-            //if(v.getId() != R.id.btnEquals && v.getId() != R.id.btnClear && v.getId() != R.id.btnHistory){
-            //get button text
+            //number buttons are pressed: get text of the number button
             String pressedBtnText = ((Button)v).getText().toString();
-            //1. push input to string
-            //calculator.push(pressedBtnText);
-            //2. write on textview
+
+            //push input to query string and write on textview
             resultTextView.setText(resultTextView.getText() + pressedBtnText);
             calculator.push(pressedBtnText);
         }
@@ -126,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     void updateHistoryTextView() {
         historyTextView.setText("");
         for (String result : ((ResultsHistory)getApplication()).results) {
+            //traverse through the linked list at app level and till it's not null: display its items
             if (result != null) {
                 historyTextView.append("\n" + result);
             }
