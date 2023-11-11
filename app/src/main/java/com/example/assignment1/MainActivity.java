@@ -87,12 +87,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if(v.getId() == R.id.btnEquals) {
             //if nothing was entered: the app crashes, so display an error message
             if(calculator.getNumbersEntered().length() == 0)
-                Toast.makeText(this, "No query entered", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "No expression entered", Toast.LENGTH_SHORT).show();
             else {
                 //perform calculation
                 int result = calculator.calculate();
 
-                //if the result is invalid, display error message and clear textView and query string
+                //if the result is invalid, display error message and clear textView and expression string
                 if (!calculator.getIsCorrect()) {
                     Toast.makeText(this,
                             "Invalid input: " + calculator.getNumbersEntered() + "\n" + calculator.getErrorMessage(),
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //number buttons are pressed: get text of the number button
             String pressedBtnText = ((Button)v).getText().toString();
 
-            //push input to query string and write on textview
+            //push input to expression string and write on textview
             //resultTextView.setText(resultTextView.getText() + pressedBtnText);
             resultTextView.setText(String.format("%s%s", resultTextView.getText(), pressedBtnText));
             calculator.push(pressedBtnText);

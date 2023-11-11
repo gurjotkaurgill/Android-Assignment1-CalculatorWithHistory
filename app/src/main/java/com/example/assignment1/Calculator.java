@@ -5,9 +5,9 @@ import static java.lang.Character.isDigit;
 
 public class Calculator {
 
-    boolean isCorrect = true; //check if result is valid
-    String errorMessage; //if the result is invalid, this tells what the error is
-    String numbersEntered; //calculation requested by user
+    private boolean isCorrect = true; //check if result is valid
+    private String errorMessage=""; //if the result is invalid, this tells what the error is
+    private String numbersEntered=""; //calculation requested by user
 
     public boolean getIsCorrect() {
         return isCorrect;
@@ -79,9 +79,9 @@ public class Calculator {
             return false;
         }
 
-        //the last character is not a number: invalid query
+        //the last character is not a number: invalid expression
         if(!(isDigit(problemString.charAt(problemString.length()-1)))) {
-            setErrorMessage("Need an operand before & after the operator.");
+            setErrorMessage("Error: ending with operator.");
             return false;
         }
 
