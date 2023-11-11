@@ -74,12 +74,14 @@ public class Calculator {
         //to check if string made from user inputs is valid or not
 
         //length less than 3: either the operator or one of the operands is missing
-        if(problemString.length() < 3)
+        if(problemString.length() < 3) {
+            setErrorMessage("Operator/ operand(s) missing");
             return false;
+        }
 
         //the last character is not a number: invalid query
         if(!(isDigit(problemString.charAt(problemString.length()-1)))) {
-            setErrorMessage("Need an operand after the operator.");
+            setErrorMessage("Need an operand before & after the operator.");
             return false;
         }
 
@@ -103,9 +105,7 @@ public class Calculator {
                 }
             }
         }
-        if(!flag) {
-            setErrorMessage("Cannot accept multiple digit numbers");
-        }
+        if(!flag) setErrorMessage("Cannot accept multiple digit numbers");
         return flag;
     }
 }

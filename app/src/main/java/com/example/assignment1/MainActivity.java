@@ -1,8 +1,9 @@
 package com.example.assignment1;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+import android.text.Layout;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnHistory = findViewById(R.id.btnHistory);
         resultTextView = findViewById(R.id.resultTextView);
         historyTextView = findViewById(R.id.historyTextView);
+        historyTextView.setMovementMethod(new ScrollingMovementMethod());
     }
     void setClickListeners() {
         btn1.setOnClickListener(this);
@@ -128,7 +130,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String pressedBtnText = ((Button)v).getText().toString();
 
             //push input to query string and write on textview
-            resultTextView.setText(resultTextView.getText() + pressedBtnText);
+            //resultTextView.setText(resultTextView.getText() + pressedBtnText);
+            resultTextView.setText(String.format("%s%s", resultTextView.getText(), pressedBtnText));
             calculator.push(pressedBtnText);
         }
     }
@@ -138,6 +141,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //traverse through the linked list at app level and till it's not null: display its items
             if (result != null) {
                 historyTextView.append("\n" + result);
+            }
+        }
+
+        // find the amount we need to scroll.  This works by
+        // asking the TextView's internal layout for the position
+        // of the final line and then subtracting the TextView's height
+        if(historyTextView.getText() != null) {
+            final Layout layout = historyTextView.getLayout();
+            if(layout != null) {
+                int scrollAmount = layout.getLineTop(historyTextView.getLineCount()) - historyTextView.getHeight();
+                // if there is no need to scroll, scrollAmount will be <=0
+                if (scrollAmount > 0)
+                    historyTextView.scrollTo(0, scrollAmount);
+                else
+                    historyTextView.scrollTo(0, 0);
             }
         }
     }

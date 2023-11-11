@@ -194,11 +194,15 @@
 
     <TextView
         android:id="@+id/historyTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:layout_marginTop="20dp"/>
+        android:maxLines="10"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        android:layout_margin="20dp"/>
 
 </LinearLayout>
